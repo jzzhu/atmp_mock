@@ -1,0 +1,19 @@
+hub:
+  image: selenium/hub
+  ports:
+    - 4444:4444
+firefox:
+  image: selenium/node-firefox-debug
+  ports:
+    - 5901:5900
+  links:
+    - hub
+mydjango:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    links:
+      - hub
